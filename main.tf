@@ -1,6 +1,6 @@
 provider "aws" {
   profile = "terraform"
-  region = "us-east-1"
+  region = "ap-northeast-1"
 }
 
 # ec2の起動
