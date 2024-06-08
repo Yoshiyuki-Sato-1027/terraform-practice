@@ -11,4 +11,12 @@ resource "aws_instance" "hello-world" {
   tags = {
     Name: "Hello World"
   }
+
+  user_data = <<EOF
+#! /bin/bash
+amazon-linux-extras install -y nginx1.12
+systemctl start nginx
+EOF
+# インスタンス再作成するようにする
+user_data_replace_on_change = true
 }
