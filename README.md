@@ -1,8 +1,5 @@
-メモ
+terraform init
+初期化
 
-HCML2
-
-locals
-ローカル変数
-variables
-グローバル変数
+terraform fmt
+フォーマット
