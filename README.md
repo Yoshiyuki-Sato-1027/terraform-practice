@@ -36,8 +36,18 @@ $ tflint --init
 $ tflint --recursive
 ```
 
-## コード整形
+## コマンド
+
+### コード整形
 
 ```bash
 $ terraform fmt
+```
+
+### 確認をスキップ
+
+```bash
+$ terraform apply -auto-approve
+
+$ terraform destroy -auto-approve
 ```
