@@ -41,7 +41,7 @@ $ tflint --recursive
 ### コード整形
 
 ```bash
-$ terraform fmt
+$ terraform fmt --recursive
 ```
 
 ### 確認をスキップ
