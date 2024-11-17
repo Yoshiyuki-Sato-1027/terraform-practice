@@ -23,6 +23,7 @@ resource "aws_iam_policy" "default" {
   policy = var.policy
 }
 
+# ポリシーをアタッチ(設定)する
 resource "aws_iam_role_policy_attachment" "default" {
   role       = aws_iam_role.default.name
   policy_arn = aws_iam_policy.default.arn
@@ -44,3 +45,5 @@ module "describe_regions_for_ec2" {
   identify = "ec2.amazonaws.com"
   policy   = data.aws_iam_policy_document.allow_describe_regions.json
 }
+
+# ポリシー: リソースのアクセス許可をまとめたもの
