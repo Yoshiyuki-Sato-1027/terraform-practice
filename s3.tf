@@ -66,3 +66,44 @@ resource "aws_s3_bucket_cors_configuration" "public" {
     max_age_seconds = 3000
   }
 }
+
+# ALBのログ保存
+resource "aws_s3_bucket" "alb_log" {
+  bucket = "alb-log-pragmatic-terraform3"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "alb_log" {
+  bucket = aws_s3_bucket.alb_log.id
+
+  rule {
+    id     = "log_expiration"
+    status = "Enabled"
+
+    expiration {
+      days = 180
+    }
+  }
+}
+
+resource "aws_s3_bucket_policy" "alb_log" {
+  bucket = aws_s3_bucket.alb_log.id
+  policy = data.aws_iam_policy_document.alb_log.json
+}
+
+# バケットポリシーを定義
+data "aws_iam_policy_document" "alb_log" {
+  statement {
+    actions   = ["s3:PutObject"]
+    resources = ["arn:aws:s3:::${aws_s3_bucket.alb_log.id}/*"]
+    principals {
+      type        = "AWS"
+      identifiers = ["807933607169"]
+    }
+  }
+}
+
+# force_destroy = trueによって、S3にオブジェクトが入っていても矯正削除できる
+# resource "aws_s3_bucket" "force_destroy" {
+#   bucket = "force-destroy-pragmatic-terraform4"
+#   force_destroy = true
+# }
