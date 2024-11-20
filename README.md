@@ -51,3 +51,39 @@ $ terraform apply -auto-approve
 
 $ terraform destroy -auto-approve
 ```
+
+## キャッチアップ
+
+### ポリシードキュメント
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["ec2:DescribeRegions"],
+      "Resource": ["*"]
+    }
+  ]
+}
+
+```
+
+- Effect: Allow or Deny
+- Action: サービス : どんな操作ができるか
+- Resource: 操作可能なリソース
+
+※aws_iam_policy_document でもポリシーを記述できる
+
+### IAM ポリシー
+
+ポリシードキュメントを保持するリソース
+
+### IAM ロール
+
+AWS のサービスへ権限を付与する
+
+「信頼ポリシー」 なんのサービスに関連付けるかの宣言のこと
+
+### IAM ポリシーと IAM ロールをアタッチする
