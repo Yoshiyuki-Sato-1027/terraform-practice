@@ -29,7 +29,7 @@ resource "aws_iam_role_policy_attachment" "default" {
   policy_arn = aws_iam_policy.default.arn
 }
 
-output "aws_iam_role_arn" {
+output "iam_role_arn" {
   value = aws_iam_role.default.arn
 
 }
@@ -38,12 +38,6 @@ output "iam_role_name" {
   value = aws_iam_role.default.name
 }
 
-# ec2のiam
-module "describe_regions_for_ec2" {
-  source   = "./iam_role"
-  name     = "describe-regions-for-ec2"
-  identify = "ec2.amazonaws.com"
-  policy   = data.aws_iam_policy_document.allow_describe_regions.json
+data "aws_iam_policy" "ecs_events_role_policy" {
+  arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceEventsRole"
 }
-
-# ポリシー: リソースのアクセス許可をまとめたもの
