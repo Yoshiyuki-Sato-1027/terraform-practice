@@ -3,3 +3,5 @@ terraform.tfstate.d
 .terraform.tfstate.lock.info
 .terraform.lock.hcl
 terraform.tfstate.backup
+node_modules
+.DS_Store
