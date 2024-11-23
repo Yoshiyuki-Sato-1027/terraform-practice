@@ -1,7 +1,24 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-if [ "$3" -eq 1 ]; then
-  # 新しいブランチが作成された場合に空コミットを作成
-  git commit --allow-empty -m "Initial empty commit" --no-verify
+# コマンドライン引数を取得
+before=$1
+after=$2
+switch=$3
+
+# before と after が等しくない、または switch が 1 でない場合は終了
+[ "$before" != "$after" ] && exit 0
+[ "$switch" -ne 1 ] && exit 0
+
+# 現在のブランチ名を取得
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+# stagingブランチとmasterブランチを除外
+if [ "$branch" = "staging" ] || [ "$branch" = "master" ]; then
+  exit 0
 fi
+
+msg="start $branch"
+
+# 空のコミットを作成
+git commit --allow-empty -m "$msg" --no-verify
