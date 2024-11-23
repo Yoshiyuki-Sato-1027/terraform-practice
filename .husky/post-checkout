@@ -1,15 +1,24 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# $1 = 0 -> 既存のブランチへの切り替え
-# $1 = 1 -> 新しいブランチを作成した場合
+# コマンドライン引数を取得
+before=$1
+after=$2
+switch=$3
 
-# 新しいブランチを作成した場合
-if [ "$1" -eq 1 ]; then
-  echo "新しいブランチが作成されました: $2"
-  
-  # 空コミットを実行
-  git commit --allow-empty -m "Initial empty commit" --no-verify
-else
-  echo "既存のブランチに切り替えました: $2"
+# before と after が等しくない、または switch が 1 でない場合は終了
+[ "$before" != "$after" ] && exit 0
+[ "$switch" -ne 1 ] && exit 0
+
+# 現在のブランチ名を取得
+branch=$(git rev-parse --abbrev-ref HEAD)
+
+# stagingブランチとmasterブランチを除外
+if [ "$branch" = "staging" ] || [ "$branch" = "master" ]; then
+  exit 0
 fi
+
+msg="start $branch"
+
+# 空のコミットを作成
+git commit --allow-empty -m "$msg" --no-verify
