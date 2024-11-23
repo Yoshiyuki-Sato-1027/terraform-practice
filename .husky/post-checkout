@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-git commit --allow-empty -m 'Initial empty commit' --no-verify
+if [ "$3" -eq 1 ]; then
+  # 新しいブランチが作成された場合に空コミットを作成
+  git commit --allow-empty -m "Initial empty commit" --no-verify
+fi
