@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+before, after, switch = ARGV
+exit 0 unless before == after
+exit 0 unless switch.to_i == 1
+
+branch = `git rev-parse --abbrev-ref HEAD`
+msg = "Created new branch #{branch}"
+system(%(git commit --allow-empty -m "#{msg}"))
