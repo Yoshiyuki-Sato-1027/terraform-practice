@@ -1,7 +1,18 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+#!/bin/sh
+# .husky/post-checkout
+
+# 1つ目の引数：`previous_ref`（前のリファレンス）
+# 2つ目の引数：`new_ref`（新しいリファレンス）
+# 3つ目の引数：`is_branch_creation`（新しいブランチが作成されたか）
+
+# 新しいブランチ作成時にのみ処理を実行
 if [ "$3" -eq 1 ]; then
-  # 新しいブランチが作成された場合に空コミットを作成
+  echo "新しいブランチが作成されました: $2"
+  # 新しいブランチが作成された場合に空コミットなどを実行
   git commit --allow-empty -m "Initial empty commit" --no-verify
+else
+  echo "既存のブランチに切り替えました: $2"
 fi
