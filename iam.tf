@@ -44,3 +44,31 @@ module "describe_regions_for_ec2" {
 #   container_definitions    = file("./container_definitions.json")
 #   execution_role_arn       = module.ecs_task_execution_role.iam_role_arn
 # }
+
+
+data "aws_iam_policy_document" "codebuild" {
+  statement {
+    effect    = "Allow"
+    resources = ["*"]
+    actions = [
+      "s3:PutObject",
+      "s3:GetObject",
+      "s3:GetObjectVersion",
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "ecr:GetAuthorizationToken",
+      "ecr:BatchCheckLayerAvailability",
+      "ecr:GetDownloadUrlForLayer",
+      "ecr:GetRepositoryPolicy",
+      "ecr:DescribeRepositories",
+      "ecr:ListImages",
+      "ecr:DescribeImages",
+      "ecr:BatchGetImage",
+      "ecr:InitiateLayerUpload",
+      "ecr:UploadLayerPart",
+      "ecr:CompleteLayerUpload",
+      "ecr:PutImage",
+    ]
+  }
+}
