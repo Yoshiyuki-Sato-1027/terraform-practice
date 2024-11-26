@@ -25,8 +25,8 @@ module "http_redirect_sg" {
 
 resource "aws_lb" "example" {
   name                       = "example"
-  load_balancer_type         = "application"
-  internal                   = false # インターネット向け(false) or VPC内部向け(true)
+  load_balancer_type         = "application" # applicationを指定するとALB、networkを指定するとNLB
+  internal                   = false         # インターネット向け(false) or VPC内部向け(true)
   idle_timeout               = 60
   enable_deletion_protection = true # true で　削除保護を有効にする
 
@@ -36,7 +36,7 @@ resource "aws_lb" "example" {
   ]
 
   access_logs {
-    bucket  = aws_s3_bucket.alb_log.bucket
+    bucket  = aws_s3_bucket.alb_log.bucket # ログバケットを指定
     enabled = true
   }
 
@@ -67,3 +67,10 @@ resource "aws_lb_listener" "http" {
     }
   }
 }
+
+
+# プロトコル	ポート番号
+# HTTP	80番
+# SMTP	25番
+# POP	110番
+# HTTPS	443番

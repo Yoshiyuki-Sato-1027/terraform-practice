@@ -107,3 +107,20 @@ data "aws_iam_policy_document" "alb_log" {
 #   bucket = "force-destroy-pragmatic-terraform4"
 #   force_destroy = true
 # }
+
+resource "aws_s3_bucket" "operation" {
+  bucket = "operation-pragmatic-terraform"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "operation" {
+  bucket = aws_s3_bucket.operation.id
+
+  rule {
+    id     = "log_expiration"
+    status = "Enabled"
+
+    expiration {
+      days = 180
+    }
+  }
+}
