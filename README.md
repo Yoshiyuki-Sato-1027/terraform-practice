@@ -52,6 +52,12 @@ $ terraform apply -auto-approve
 $ terraform destroy -auto-approve
 ```
 
+### ID からリソース名の逆引き
+
+```
+terraform state list -id=<id>
+```
+
 ## キャッチアップ
 
 ### ポリシードキュメント
