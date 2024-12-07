@@ -3,6 +3,7 @@ resource "aws_s3_bucket" "private" {
   bucket = "private-pragmatic-terraform1"
 }
 
+# バージョニングの有効化
 resource "aws_s3_bucket_versioning" "private" {
   bucket = aws_s3_bucket.private.id
   versioning_configuration {
@@ -10,6 +11,7 @@ resource "aws_s3_bucket_versioning" "private" {
   }
 }
 
+# 暗号化 多分デフォルトでも音にしてくれるはず
 resource "aws_s3_bucket_server_side_encryption_configuration" "private" {
   bucket = aws_s3_bucket.private.id
 
@@ -32,16 +34,19 @@ resource "aws_s3_bucket_ownership_controls" "public" {
   bucket = aws_s3_bucket.public.id
   rule {
     object_ownership = "BucketOwnerPreferred"
+
   }
+
 }
 
 resource "aws_s3_bucket_public_access_block" "public" {
   bucket = aws_s3_bucket.public.id
 
-  block_public_acls       = false
-  block_public_policy     = false
-  ignore_public_acls      = false
-  restrict_public_buckets = false
+  # ブロックパブリックアクセスの設定
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
 }
 
 # ACLの設定
@@ -51,7 +56,12 @@ resource "aws_s3_bucket_acl" "public" {
     aws_s3_bucket_public_access_block.public,
   ]
   bucket = aws_s3_bucket.public.id
-  acl    = "public-read"
+
+  # aclでアクセス権の設定をしてる
+  # デフォルトprivate
+  acl = "public-read"
+  # 引用 現状では、CloudFront のアクセスログを S3 に保存する場合以外で、特別な事情がない限りは、ACL を無効化することが望ましいと考えられます。
+  # https://dev.classmethod.jp/articles/s3-acl-enable-usecase/
 
 }
 
